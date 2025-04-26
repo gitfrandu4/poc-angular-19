@@ -15,9 +15,11 @@ export interface Todo {
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
-  private todosColl = collection(this.firestore, 'todos');
+  private todosColl;
 
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore) {
+    this.todosColl = collection(this.firestore, 'todos');
+  }
 
   /** Returns a real-time stream of all todos (with id field) */
   getTodos(): Observable<Todo[]> {

@@ -40,7 +40,7 @@ export class TodoService {
   }
 
   updateTodo(todo: Todo): Promise<void> {
-    const docRef = doc(this.firestore, 'todos');
+    const docRef = doc(this.firestore, 'todos', todo.id || '');
     return setDoc(docRef, todo, { merge: true });
   }
   

@@ -1,6 +1,5 @@
 /**
  * Firebase configuration.
- * Replace the following values with your Firebase project settings.
  */
 export const firebaseConfig = {
   apiKey: "AIzaSyCmJbl6PG997cReFEjkeqh21zAnIvt8fMA",

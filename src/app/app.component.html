@@ -3,8 +3,17 @@
   <ul>
     <li *ngFor="let todo of todos$ | async">
       {{ todo.title }}
+      
       <small *ngIf="todo.completed">(Done)</small>
       <small *ngIf="!todo.completed">(Pending)</small>
+      
+      <button (click)="toggleTodo(todo)">Toggle</button>
+      <button *ngIf="todo.id" (click)="deleteTodo(todo.id)">Delete</button>
     </li>
   </ul>
+
+  <form (ngSubmit)="addTodo(newTodoTitle)">
+    <input type="text" [(ngModel)]="newTodoTitle" name="title" placeholder="New Todo" required>
+    <button type="submit">Add Todo</button>
+  </form>
 </main>

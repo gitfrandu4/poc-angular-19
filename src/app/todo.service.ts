@@ -3,8 +3,11 @@ import { Injectable } from '@angular/core';
 import {
   Firestore,
   collection,
-  collectionData
+  collectionData,
+  doc,
+  setDoc
 } from '@angular/fire/firestore';
+import { deleteDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 export interface Todo {
@@ -25,4 +28,23 @@ export class TodoService {
   getTodos(): Observable<Todo[]> {
     return collectionData(this.todosColl, { idField: 'id' }) as Observable<Todo[]>;
   }
+
+  addTodo(todo: Todo): Promise<void> {
+    const docRef = doc(this.todosColl);
+    return setDoc(docRef, todo);
+  }
+
+  deleteTodo(id: string): Promise<void> {
+    const docRef = doc(this.firestore, 'todos', id);
+    return deleteDoc(docRef);
+  }
+
+  updateTodo(todo: Todo): Promise<void> {
+    const docRef = doc(this.firestore, 'todos');
+    return setDoc(docRef, todo, { merge: true });
+  }
+  
+
+  // updateTodo(todo: Todo): Promise<void> {
+  // }
 }

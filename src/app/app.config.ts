@@ -1,12 +1,13 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
+
+// Provide Firestore Database
+import { provideFirestore } from '@angular/fire/firestore';
+import { getFirestore } from 'firebase/firestore';
 
 // Firebase integration
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideStorage } from '@angular/fire/storage';
-import { getStorage } from 'firebase/storage';
 import { firebaseConfig } from './firebase.config';
 
 export const appConfig: ApplicationConfig = {
@@ -16,6 +17,6 @@ export const appConfig: ApplicationConfig = {
     // Initialize Firebase
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     // Provide Firebase Storage
-    provideStorage(() => getStorage()),
+    provideFirestore(() => getFirestore())
   ]
 };

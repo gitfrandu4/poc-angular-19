@@ -27,6 +27,9 @@ export class AppComponent {
   todos$: Observable<Todo[]>;
   todos: Todo[] = [];
 
+  editingId: string | null = null;
+  editingTitle: string = '';
+
   // Inject the TodoService to use its methods
   constructor(private todoService: TodoService) {
     this.todos$ = this.todoService.getTodos();
@@ -34,6 +37,7 @@ export class AppComponent {
       this.todos = todos;
     });
   }
+
   addTodo(title: string) {
     const newTodo: Todo = { 
       title, 
@@ -63,5 +67,38 @@ export class AppComponent {
     }).catch(error => {
       console.error('Error updating todo: ', error);
     });
+  }
+
+
+  startEdit(todo: Todo) {
+    this.editingId = todo.id!;
+    this.editingTitle = todo.title;
+  }
+
+  async updateTodo() {
+
+    console.log('Editing ID:', this.editingId);
+
+    if (this.editingId) {
+      const updatedTodo: Todo = { 
+        id: this.editingId, 
+        title: this.editingTitle, 
+        completed: false 
+      };
+
+      try {
+        await this.todoService.updateTodo(updatedTodo);
+        console.log('Todo updated successfully');
+      } catch (error) {
+        console.error('Error updating todo: ', error);
+      } finally {
+        this.editingId = null;
+        this.editingTitle = '';
+      }
+    }
+  }
+  cancelEdit() {
+    this.editingId = null;
+    this.editingTitle = '';
   }
 }

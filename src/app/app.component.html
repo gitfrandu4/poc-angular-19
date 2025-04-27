@@ -8,14 +8,27 @@
       <!-- <span [ngClass]="{ 'completed': todo.completed }"></span>
       <span [ngClass]="{ 'pending': !todo.completed }"></span> -->
       
-      {{ todo.title }}
+      <!-- read mode -->
       
-      <small *ngIf="todo.completed">(Done)</small>
-      <small *ngIf="!todo.completed">(Pending)</small>
+      <ng-container *ngIf="editingId !== todo.id; else editMode">
+        {{ todo.title }}
+        <button (click)="startEdit(todo)">Edit</button>
+        <button *ngIf="todo.id" (click)="deleteTodo(todo.id)">Delete</button>
+      </ng-container>
+
+      <!-- edit mode -->
+      <ng-template #editMode>
+        <input [(ngModel)]="editingTitle" name="title" placeholder="Edit Todo" required>
+        <button (click)="cancelEdit()">Cancel</button>
+        <button (click)="updateTodo()">Save</button>
+      </ng-template>
+
+           
+      <!-- <small *ngIf="todo.completed">(Done)</small>
+      <small *ngIf="!todo.completed">(Pending)</small> -->
       
       <!-- <button (click)="toggleTodo(todo)">Toggle</button> -->
       <!-- <button *ngIf="todo.id" (click)="editTodo(todo)">Edit</button> -->
-      <button *ngIf="todo.id" (click)="deleteTodo(todo.id)">Delete</button>
     </li>
   </ul>
 
